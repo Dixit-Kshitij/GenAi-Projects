@@ -1,0 +1,6 @@
+# Lets uv consider package versions across ALL configured indexes (PyPI +
+# the PyTorch CPU index) instead of committing exclusively to whichever
+# index it sees a package name on first. Fixes recurring "no solution found"
+# errors where PyTorch's index happens to also list unrelated packages
+# (requests, etc.) at old/mismatched versions.
+index-strategy = "unsafe-best-match"
