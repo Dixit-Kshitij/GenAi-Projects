@@ -15,22 +15,51 @@ os.makedirs(download_dir, exist_ok=True)
 def download_youtube_audio(url: str) -> str:
     output_path = os.path.join(download_dir, "%(title)s.%(ext)s")
 
+    # ydl_opts = {
+    #     "format": "bestaudio/best",
+    #     "outtmpl": output_path,
+    #     "postprocessors": [
+    #         {
+    #             "key": "FFmpegExtractAudio",
+    #             "preferredcodec": "wav",
+    #             "preferredquality": "192",
+    #         }
+    #     ],
+    #     "extractor_args": {
+    #         "youtube": {
+    #             "player_client": ["android"]
+    #         }
+    #     },
+    #     "quiet": True,
+    # }
     ydl_opts = {
         "format": "bestaudio/best",
         "outtmpl": output_path,
-        "postprocessors": [
-            {
-                "key": "FFmpegExtractAudio",
-                "preferredcodec": "wav",
-                "preferredquality": "192",
-            }
-        ],
+    
+        "quiet": False,
+        "noplaylist": True,
+        "socket_timeout": 30,
+        "retries": 10,
+        "fragment_retries": 10,
+    
         "extractor_args": {
             "youtube": {
-                "player_client": ["android"]
+                "player_client": ["android", "web"]
             }
         },
-        "quiet": True,
+    
+        "http_headers": {
+            "User-Agent": (
+                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                "AppleWebKit/537.36 Chrome/138.0 Safari/537.36"
+            )
+        },
+    
+        "postprocessors": [{
+            "key": "FFmpegExtractAudio",
+            "preferredcodec": "wav",
+            "preferredquality": "192",
+        }]
     }
 
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
