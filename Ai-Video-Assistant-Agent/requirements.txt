@@ -12,7 +12,10 @@ ffmpeg-python==0.2.0
 torch==2.7.1
 torchvision==0.22.1
 torchaudio==2.7.1
-openai-whisper==20231117
+# PyPI's openai-whisper releases (incl. latest) are source-only and their
+# setup.py still imports pkg_resources, which modern setuptools no longer
+# ships — installing from the GitHub main branch pulls in the community fix.
+git+https://github.com/openai/whisper.git
 
 # numba/llvmlite explicit pin — prevents the resolver from picking an old
 # combo that fails to build on Python 3.11/3.12 (openai-whisper pulls numba
@@ -71,7 +74,7 @@ fpdf2==2.8.4
 # ---------------------------
 python-dotenv==1.1.1
 numpy==2.2.6
-requests==2.32.4
+requests>=2.32.0
 tqdm==4.67.1
 watchdog==6.0.0
 
