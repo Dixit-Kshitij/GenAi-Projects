@@ -1,45 +1,81 @@
-# ── AI Meeting Assistant ── requirements.txt ──────────────────────────────────
-# Python >= 3.10 recommended
+# ---------------------------
+# Audio / Video
+# ---------------------------
+yt-dlp==2025.7.21
+pydub==0.25.1
+ffmpeg-python==0.2.0
 
-# ── Audio / Video acquisition ─────────────────────────────────────────────────
-yt-dlp>=2024.4.9                  # Download audio from YouTube URLs
-pydub>=0.25.1                     # Audio file manipulation / format conversion
-ffmpeg-python>=0.2.0              # FFmpeg bindings (FFmpeg binary must be installed separately)
+# ---------------------------
+# Whisper (CPU-only torch — avoids multi-GB CUDA wheels on Streamlit Cloud)
+# ---------------------------
+--extra-index-url https://download.pytorch.org/whl/cpu
+torch==2.7.1
+torchvision==0.22.1
+torchaudio==2.7.1
+openai-whisper==20231117
 
-# ── Speech-to-Text (local Whisper) ────────────────────────────────────────────
-openai-whisper>=20231117          # OpenAI Whisper (runs locally)
-torch>=2.2.0                      # PyTorch backend for Whisper
-torchaudio>=2.2.0                 # Audio utilities for PyTorch
+# numba/llvmlite explicit pin — prevents the resolver from picking an old
+# combo that fails to build on Python 3.11/3.12 (openai-whisper pulls numba
+# unpinned, which can chain to an incompatible old llvmlite otherwise)
+numba>=0.59.0
+llvmlite>=0.42.0
 
-# ── Translation (Hindi → English) ─────────────────────────────────────────────
-deep-translator>=1.11.4           # Lightweight translation wrapper (Google backend)
+# ---------------------------
+# Translation
+# ---------------------------
+deep-translator==1.11.4
 
-# ── LLM Orchestration — LangChain LCEL + Mistral ──────────────────────────────
-langchain>=0.2.0
-langchain-core>=0.2.0
-langchain-community>=0.2.0
-langchain-mistralai>=0.1.0        # LangChain wrapper for Mistral API
-mistralai>=0.4.0                  # Official Mistral Python client
+# ---------------------------
+# LangChain
+# ---------------------------
+langchain==0.3.27
+langchain-core==0.3.75
+langchain-community==0.3.27
+langchain-text-splitters==0.3.9
+langchain-mistralai==0.2.11
+mistralai==1.9.11
 
-# ── RAG Pipeline ──────────────────────────────────────────────────────────────
-langchain-chroma>=0.1.0           # From claude.
-chromadb>=0.5.0                   # Local vector store
-sentence-transformers>=3.0.0      # HuggingFace embedding models
-langchain-huggingface>=0.0.3      # LangChain ↔ HuggingFace embeddings bridge
-huggingface-hub>=0.23.0           # Model downloading from HuggingFace Hub
-tiktoken>=0.7.0                   # Token counting for text splitting
+# ---------------------------
+# Vector Database
+# ---------------------------
+chromadb==1.0.15
+langchain-chroma==0.2.5
 
-# ── Streamlit UI ──────────────────────────────────────────────────────────────
-streamlit>=1.35.0
-streamlit-extras>=0.4.0           # Additional Streamlit widgets / utilities
-watchdog>=4.0.0                   # File-change watcher (improves Streamlit hot-reload)
+# ---------------------------
+# Embeddings
+# ---------------------------
+sentence-transformers==5.0.0
+transformers==4.53.3
+huggingface-hub==0.34.3
+langchain-huggingface==0.3.1
 
-# ── PDF & TXT Export ──────────────────────────────────────────────────────────
-reportlab>=4.2.0                  # PDF generation
-fpdf2>=2.7.9                      # Lightweight alternative PDF library
+# ---------------------------
+# Tokenizer
+# ---------------------------
+tiktoken==0.9.0
 
-# ── Utilities ─────────────────────────────────────────────────────────────────
-python-dotenv>=1.0.0              # Load API keys from .env
-numpy>=1.26.0
-tqdm>=4.66.0                      # Progress bars
-requests>=2.32.0
+# ---------------------------
+# Streamlit
+# ---------------------------
+streamlit==1.47.1
+streamlit-extras==0.7.5
+
+# ---------------------------
+# PDF
+# ---------------------------
+reportlab==4.4.2
+fpdf2==2.8.4
+
+# ---------------------------
+# Utilities
+# ---------------------------
+python-dotenv==1.1.1
+numpy==2.2.6
+requests==2.32.4
+tqdm==4.67.1
+watchdog==6.0.0
+
+# ---------------------------
+# Chroma fix for Streamlit Cloud
+# ---------------------------
+pysqlite3-binary==0.5.4
