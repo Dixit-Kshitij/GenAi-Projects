@@ -3,7 +3,7 @@ import os
 from dotenv import load_dotenv
 load_dotenv()
 WHISPER_MODEL = whisper.load_model("base")
-SARVAM_API_MODEL = os.getenv("")
+SARVAM_API_MODEL = os.getenv("SARVAM_API_MODEL")
 _model = None
 
 def load_model():
