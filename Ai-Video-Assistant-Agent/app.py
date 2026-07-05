@@ -1,6 +1,6 @@
 # ── Streamlit Cloud compatibility shims — DO NOT REMOVE ───────────────────────
 # 1) ChromaDB needs sqlite3 >= 3.35.0; Streamlit Cloud's system sqlite3 is older.
-#    Swapping in pysqlite3-binary before any other import fixes this.
+# Swapping in pysqlite3-binary before any other import fixes this.
 __import__('pysqlite3')
 import sys
 sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
