@@ -1,9 +1,15 @@
 # ── Streamlit Cloud compatibility shims — DO NOT REMOVE ───────────────────────
 # 1) ChromaDB needs sqlite3 >= 3.35.0; Streamlit Cloud's system sqlite3 is older.
 # Swapping in pysqlite3-binary before any other import fixes this.
-__import__('pysqlite3')
-import sys
-sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+# __import__('pysqlite3')
+# import sys
+# sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+try:
+    __import__('pysqlite3')
+    import sys
+    sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+except ImportError:
+    pass  # not installed (e.g. local Windows dev) — fine, system sqlite3 is used instead
 
 # 2) Streamlit Cloud doesn't read .env files — secrets are set in the dashboard
 #    (Settings → Secrets) and exposed via st.secrets. This bridges them into
