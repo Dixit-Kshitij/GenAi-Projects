@@ -1,11 +1,13 @@
 import os
-
-os.environ["PATH"] += os.pathsep + r"C:\ffmpeg\ffmpeg-8.1.2-essentials_build\bin"
+import platform
+if platform.system() == "Windows":
+    os.environ["PATH"] += os.pathsep + r"C:\ffmpeg\ffmpeg-8.1.2-essentials_build\bin"
 
 from pydub import AudioSegment
 import yt_dlp
 
-AudioSegment.converter = r"C:\ffmpeg\ffmpeg-8.1.2-essentials_build\bin\ffmpeg.exe"
+if platform.system() == "Windows":
+    AudioSegment.converter = r"C:\ffmpeg\ffmpeg-8.1.2-essentials_build\bin\ffmpeg.exe"
 
 download_dir = "downloads"
 os.makedirs(download_dir, exist_ok=True)
